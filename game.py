@@ -42,7 +42,7 @@ class GameScreen(QWidget):
         self.setLayout(layout)
 
     def update_score_label(self):
-        self.score_label.setText(f"{self.player1_name} (X): {self.player1_score} - {self.player2_name} (O): {self.player2_score}")
+        self.score_label.setText(f"{self.player1_name} (X): {self.player1_score}\n{self.player2_name} (O): {self.player2_score}")
 
     def make_move(self, index):
         def callback():
