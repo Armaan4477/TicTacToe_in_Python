@@ -45,6 +45,8 @@ class GameScreen(QWidget):
                 self.buttons[index].setText(self.current_player)
                 if self.check_winner():
                     self.main_window.show_results_screen(self.current_player)
+                elif "" not in self.board:
+                    self.main_window.show_results_screen(None)
                 else:
                     self.current_player = "O" if self.current_player == "X" else "X"
         return callback
