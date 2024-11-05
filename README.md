@@ -12,9 +12,15 @@ This is a simple Tic Tac Toe game built using PyQt6. The game supports both sing
 
 ## Screenshots
 
-![Start Screen](screenshots/start_screen.png)
-![Game Screen](screenshots/game_screen.png)
-![Results Screen](screenshots/results_screen.png)
+![Start Screen Single Player](screenshots/pregame_1player.png)
+![Start Screen Two Player](screenshots/pregame_2player.png)
+![Game Screen Single Player](screenshots/ingame_1player.png)
+![Game Screen Two Player](screenshots/ingame_2player.png)
+![Winner player X Screen](screenshots/winner_x.png)
+![Winner player O Screen](screenshots/winner_o.png)
+![Draw Screen](screenshots/winner_draw.png)
+![Results Screen Single Player](screenshots/result_1player.png)
+![Results Screen Two Player](screenshots/result_2player.png)
 
 ## Requirements
 
