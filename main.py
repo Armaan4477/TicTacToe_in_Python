@@ -7,7 +7,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Tic Tac Toe")
-        self.setFixedSize(400, 500)
+        self.setFixedSize(410, 500)
 
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)

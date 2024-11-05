@@ -13,8 +13,8 @@ class StartScreen(QWidget):
         layout.addWidget(title)
 
         self.mode_group = QButtonGroup(self)
-        self.one_player_mode = QRadioButton("1 Player")
-        self.two_player_mode = QRadioButton("2 Players")
+        self.one_player_mode = QRadioButton("1 Player (player vs bot)")
+        self.two_player_mode = QRadioButton("2 Players (player vs player)")
         self.two_player_mode.setChecked(True)
         self.one_player_mode.setStyleSheet("color: black;")
         self.two_player_mode.setStyleSheet("color: black;")
