@@ -10,13 +10,15 @@ class StartScreen(QWidget):
 
         title = QLabel("Tic Tac Toe")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        title.setStyleSheet("font-size: 24px; font-weight: bold;")
+        title.setStyleSheet("font-size: 24px; font-weight: bold; color: black;")
         layout.addWidget(title)
 
         self.mode_group = QButtonGroup(self)
         self.one_player_mode = QRadioButton("1 Player")
         self.two_player_mode = QRadioButton("2 Players")
         self.two_player_mode.setChecked(True)
+        self.one_player_mode.setStyleSheet("color: black;")
+        self.two_player_mode.setStyleSheet("color: black;")
         self.mode_group.addButton(self.one_player_mode)
         self.mode_group.addButton(self.two_player_mode)
 
@@ -27,14 +29,16 @@ class StartScreen(QWidget):
 
         self.player1_input = QLineEdit()
         self.player1_input.setPlaceholderText("Enter Player 1 Name")
+        self.player1_input.setStyleSheet("color: black;")
         layout.addWidget(self.player1_input)
 
         self.player2_input = QLineEdit()
         self.player2_input.setPlaceholderText("Enter Player 2 Name")
+        self.player2_input.setStyleSheet("color: black;")
         layout.addWidget(self.player2_input)
 
         start_button = QPushButton("Start Game")
-        start_button.setStyleSheet("font-size: 18px; padding: 10px;")
+        start_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
         start_button.clicked.connect(self.start_game)
         layout.addWidget(start_button)
 
@@ -71,7 +75,7 @@ class GameScreen(QWidget):
     def setup_ui(self):
         layout = QVBoxLayout()
         self.score_label = QLabel()
-        self.score_label.setStyleSheet("font-size: 18px;")
+        self.score_label.setStyleSheet("font-size: 18px; color: black;")
         layout.addWidget(self.score_label)
 
         grid_layout = QGridLayout()
@@ -88,7 +92,7 @@ class GameScreen(QWidget):
         layout.addLayout(grid_layout)
 
         end_button = QPushButton("End Game")
-        end_button.setStyleSheet("font-size: 18px; padding: 10px;")
+        end_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
         end_button.clicked.connect(self.main_window.show_final_scores_screen)
         layout.addWidget(end_button)
 
@@ -209,16 +213,16 @@ class ResultsScreen(QWidget):
         result_text = f"The winner is {winner}!" if winner else "It's a draw!"
         result_label = QLabel(result_text)
         result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        result_label.setStyleSheet("font-size: 18px;")
+        result_label.setStyleSheet("font-size: 18px; color: black;")
         layout.addWidget(result_label)
 
         restart_button = QPushButton("Next Round")
-        restart_button.setStyleSheet("font-size: 18px; padding: 10px;")
+        restart_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
         restart_button.clicked.connect(self.main_window.show_game_screen)
         layout.addWidget(restart_button)
 
         end_button = QPushButton("End Game")
-        end_button.setStyleSheet("font-size: 18px; padding: 10px;")
+        end_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
         end_button.clicked.connect(self.main_window.show_final_scores_screen)
         layout.addWidget(end_button)
 
@@ -233,16 +237,16 @@ class FinalScoresScreen(QWidget):
         final_scores_text = f"Final Scores:\n{player1_name} (X): {player1_score}\n{player2_name} (O): {player2_score}"
         final_scores_label = QLabel(final_scores_text)
         final_scores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        final_scores_label.setStyleSheet("font-size: 18px;")
+        final_scores_label.setStyleSheet("font-size: 18px; color: black;")
         layout.addWidget(final_scores_label)
 
         restart_button = QPushButton("Restart")
-        restart_button.setStyleSheet("font-size: 18px; padding: 10px;")
+        restart_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
         restart_button.clicked.connect(self.main_window.restart_game)
         layout.addWidget(restart_button)
 
         close_button = QPushButton("Close")
-        close_button.setStyleSheet("font-size: 18px; padding: 10px;")
+        close_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
         close_button.clicked.connect(self.main_window.close)
         layout.addWidget(close_button)
 
@@ -269,6 +273,8 @@ class MainWindow(QMainWindow):
 
         self.start_screen.show()
         self.game_screen.hide()
+
+        self.setStyleSheet("background-color: #d3d3d3;")  # Set a darker gray background color
 
     def start_game(self, player1_name, player2_name, is_one_player_mode):
         self.game_screen.player1_name = player1_name
