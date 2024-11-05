@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QHBoxLayout
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QHBoxLayout, QRadioButton, QButtonGroup
 from PyQt6.QtCore import Qt
 
 class StartScreen(QWidget):
@@ -10,6 +10,16 @@ class StartScreen(QWidget):
         title = QLabel("Tic Tac Toe")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
+
+        self.mode_group = QButtonGroup(self)
+        self.one_player_mode = QRadioButton("1 Player")
+        self.two_player_mode = QRadioButton("2 Players")
+        self.two_player_mode.setChecked(True)
+        self.mode_group.addButton(self.one_player_mode)
+        self.mode_group.addButton(self.two_player_mode)
+
+        layout.addWidget(self.one_player_mode)
+        layout.addWidget(self.two_player_mode)
 
         self.player1_input = QLineEdit()
         self.player1_input.setPlaceholderText("Enter Player 1 Name")
@@ -24,10 +34,20 @@ class StartScreen(QWidget):
         layout.addWidget(start_button)
 
         self.setLayout(layout)
+        self.update_inputs()
+
+        self.one_player_mode.toggled.connect(self.update_inputs)
+        self.two_player_mode.toggled.connect(self.update_inputs)
+
+    def update_inputs(self):
+        if self.one_player_mode.isChecked():
+            self.player2_input.hide()
+        else:
+            self.player2_input.show()
 
     def start_game(self):
         player1_name = self.player1_input.text()
-        player2_name = self.player2_input.text()
+        player2_name = self.player2_input.text() if self.two_player_mode.isChecked() else "Bot"
         self.main_window.start_game(player1_name, player2_name)
 
 class GameScreen(QWidget):
