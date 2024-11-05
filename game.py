@@ -112,6 +112,32 @@ class GameScreen(QWidget):
         return callback
 
     def bot_move(self):
+        # Try to win
+        for i in range(9):
+            if self.board[i] == "":
+                self.board[i] = "O"
+                if self.check_winner():
+                    self.buttons[i].setText("O")
+                    self.buttons[i].setEnabled(False)
+                    self.player2_score += 1
+                    self.main_window.show_results_screen("O")
+                    return
+                self.board[i] = ""
+
+        # Try to block the opponent
+        for i in range(9):
+            if self.board[i] == "":
+                self.board[i] = "X"
+                if self.check_winner():
+                    self.board[i] = "O"
+                    self.buttons[i].setText("O")
+                    self.buttons[i].setEnabled(False)
+                    self.current_player = "X"
+                    self.update_score_label()
+                    return
+                self.board[i] = ""
+
+        # Make a random move
         available_moves = [i for i, spot in enumerate(self.board) if spot == ""]
         if available_moves:
             move = random.choice(available_moves)
