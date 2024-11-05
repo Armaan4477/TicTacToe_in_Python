@@ -93,20 +93,13 @@ This is a simple Tic Tac Toe game built using PyQt6. The game supports both sing
 
 1. Open Visual Studio Code.
 2. Open the project folder (`TicTacToe_in_Python`) in Visual Studio Code.
-3. Ensure you have the Python extension installed in Visual Studio Code.
-4. Open the terminal in Visual Studio Code (View > Terminal).
-5. Navigate to the project directory in the terminal if not already there:
-    ```sh
-    cd TicTacToe_in_Python
-    ```
-6. Install the required packages if not already installed:
-    ```sh
-    pip install PyQt6
-    ```
-7. Run the application by executing the following command in the terminal:
-    ```sh
-    python main.py
-    ```
+3. Ensure you have the Python extension installed in Visual Studio Code. You can install it from the Extensions view (`Ctrl+Shift+X`), by searching for "Python" and installing the extension provided by Microsoft.
+4. Open the `main.py` file.
+5. Click on the Run and Debug icon on the left sidebar or press `Ctrl+Shift+D`.
+6. Click on the "Run and Debug" button or press `F5`.
+7. Select "Python File" from the options if prompted.
+
+Visual Studio Code will start the application, and you will see the game window.
 
 ## Project Structure
 
