@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QHBoxLayout
 from PyQt6.QtCore import Qt
 
 class StartScreen(QWidget):
@@ -11,11 +11,24 @@ class StartScreen(QWidget):
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
 
+        self.player1_input = QLineEdit()
+        self.player1_input.setPlaceholderText("Enter Player 1 Name")
+        layout.addWidget(self.player1_input)
+
+        self.player2_input = QLineEdit()
+        self.player2_input.setPlaceholderText("Enter Player 2 Name")
+        layout.addWidget(self.player2_input)
+
         start_button = QPushButton("Start Game")
-        start_button.clicked.connect(self.main_window.show_game_screen)
+        start_button.clicked.connect(self.start_game)
         layout.addWidget(start_button)
 
         self.setLayout(layout)
+
+    def start_game(self):
+        player1_name = self.player1_input.text()
+        player2_name = self.player2_input.text()
+        self.main_window.start_game(player1_name, player2_name)
 
 class GameScreen(QWidget):
     def __init__(self, main_window):
@@ -23,10 +36,18 @@ class GameScreen(QWidget):
         self.main_window = main_window
         self.current_player = "X"
         self.board = [""] * 9
+        self.player1_name = ""
+        self.player2_name = ""
+        self.player1_score = 0
+        self.player2_score = 0
         self.setup_ui()
 
     def setup_ui(self):
-        layout = QGridLayout()
+        layout = QVBoxLayout()
+        self.score_label = QLabel()
+        layout.addWidget(self.score_label)
+
+        grid_layout = QGridLayout()
         self.buttons = []
 
         for i in range(9):
@@ -34,9 +55,13 @@ class GameScreen(QWidget):
             button.setFixedSize(80, 80)
             button.clicked.connect(self.make_move(i))
             self.buttons.append(button)
-            layout.addWidget(button, i // 3, i % 3)
+            grid_layout.addWidget(button, i // 3, i % 3)
 
+        layout.addLayout(grid_layout)
         self.setLayout(layout)
+
+    def update_score_label(self):
+        self.score_label.setText(f"{self.player1_name} (X): {self.player1_score} - {self.player2_name} (O): {self.player2_score}")
 
     def make_move(self, index):
         def callback():
@@ -44,11 +69,16 @@ class GameScreen(QWidget):
                 self.board[index] = self.current_player
                 self.buttons[index].setText(self.current_player)
                 if self.check_winner():
+                    if self.current_player == "X":
+                        self.player1_score += 1
+                    else:
+                        self.player2_score += 1
                     self.main_window.show_results_screen(self.current_player)
                 elif "" not in self.board:
                     self.main_window.show_results_screen(None)
                 else:
                     self.current_player = "O" if self.current_player == "X" else "X"
+                self.update_score_label()
         return callback
 
     def check_winner(self):
@@ -67,6 +97,7 @@ class GameScreen(QWidget):
         self.board = [""] * 9
         for button in self.buttons:
             button.setText("")
+        self.update_score_label()
 
 class ResultsScreen(QWidget):
     def __init__(self, main_window, winner):
@@ -105,6 +136,11 @@ class MainWindow(QMainWindow):
 
         self.start_screen.show()
         self.game_screen.hide()
+
+    def start_game(self, player1_name, player2_name):
+        self.game_screen.player1_name = player1_name
+        self.game_screen.player2_name = player2_name
+        self.show_game_screen()
 
     def show_game_screen(self):
         self.start_screen.hide()
