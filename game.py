@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QHBoxLayout, QRadioButton, QButtonGroup
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QHBoxLayout, QRadioButton, QButtonGroup, QSpacerItem, QSizePolicy
 from PyQt6.QtCore import Qt, QTimer
 import random
 
@@ -10,6 +10,7 @@ class StartScreen(QWidget):
 
         title = QLabel("Tic Tac Toe")
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title.setStyleSheet("font-size: 24px; font-weight: bold;")
         layout.addWidget(title)
 
         self.mode_group = QButtonGroup(self)
@@ -19,8 +20,10 @@ class StartScreen(QWidget):
         self.mode_group.addButton(self.one_player_mode)
         self.mode_group.addButton(self.two_player_mode)
 
-        layout.addWidget(self.one_player_mode)
-        layout.addWidget(self.two_player_mode)
+        mode_layout = QHBoxLayout()
+        mode_layout.addWidget(self.one_player_mode)
+        mode_layout.addWidget(self.two_player_mode)
+        layout.addLayout(mode_layout)
 
         self.player1_input = QLineEdit()
         self.player1_input.setPlaceholderText("Enter Player 1 Name")
@@ -31,6 +34,7 @@ class StartScreen(QWidget):
         layout.addWidget(self.player2_input)
 
         start_button = QPushButton("Start Game")
+        start_button.setStyleSheet("font-size: 18px; padding: 10px;")
         start_button.clicked.connect(self.start_game)
         layout.addWidget(start_button)
 
@@ -67,6 +71,7 @@ class GameScreen(QWidget):
     def setup_ui(self):
         layout = QVBoxLayout()
         self.score_label = QLabel()
+        self.score_label.setStyleSheet("font-size: 18px;")
         layout.addWidget(self.score_label)
 
         grid_layout = QGridLayout()
@@ -75,6 +80,7 @@ class GameScreen(QWidget):
         for i in range(9):
             button = QPushButton()
             button.setFixedSize(80, 80)
+            button.setStyleSheet("font-size: 24px;")
             button.clicked.connect(self.make_move(i))
             self.buttons.append(button)
             grid_layout.addWidget(button, i // 3, i % 3)
@@ -82,6 +88,7 @@ class GameScreen(QWidget):
         layout.addLayout(grid_layout)
 
         end_button = QPushButton("End Game")
+        end_button.setStyleSheet("font-size: 18px; padding: 10px;")
         end_button.clicked.connect(self.main_window.show_final_scores_screen)
         layout.addWidget(end_button)
 
@@ -181,13 +188,16 @@ class ResultsScreen(QWidget):
         result_text = f"The winner is {winner}!" if winner else "It's a draw!"
         result_label = QLabel(result_text)
         result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        result_label.setStyleSheet("font-size: 18px;")
         layout.addWidget(result_label)
 
         restart_button = QPushButton("Next Round")
+        restart_button.setStyleSheet("font-size: 18px; padding: 10px;")
         restart_button.clicked.connect(self.main_window.show_game_screen)
         layout.addWidget(restart_button)
 
         end_button = QPushButton("End Game")
+        end_button.setStyleSheet("font-size: 18px; padding: 10px;")
         end_button.clicked.connect(self.main_window.show_final_scores_screen)
         layout.addWidget(end_button)
 
@@ -202,13 +212,16 @@ class FinalScoresScreen(QWidget):
         final_scores_text = f"Final Scores:\n{player1_name} (X): {player1_score}\n{player2_name} (O): {player2_score}"
         final_scores_label = QLabel(final_scores_text)
         final_scores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        final_scores_label.setStyleSheet("font-size: 18px;")
         layout.addWidget(final_scores_label)
 
         restart_button = QPushButton("Restart")
+        restart_button.setStyleSheet("font-size: 18px; padding: 10px;")
         restart_button.clicked.connect(self.main_window.restart_game)
         layout.addWidget(restart_button)
 
         close_button = QPushButton("Close")
+        close_button.setStyleSheet("font-size: 18px; padding: 10px;")
         close_button.clicked.connect(self.main_window.close)
         layout.addWidget(close_button)
 
@@ -218,7 +231,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Tic Tac Toe")
-        self.setFixedSize(500, 500)
+        self.setFixedSize(400, 500)
 
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
@@ -244,9 +257,9 @@ class MainWindow(QMainWindow):
 
     def show_game_screen(self):
         self.start_screen.hide()
-        if self.results_screen:
+        if (self.results_screen):
             self.results_screen.hide()
-        if self.final_scores_screen:
+        if (self.final_scores_screen):
             self.final_scores_screen.hide()
         self.game_screen.reset_board()
         self.game_screen.show()
@@ -266,7 +279,7 @@ class MainWindow(QMainWindow):
             self.game_screen.player2_score
         )
         self.layout.addWidget(self.final_scores_screen)
-        if self.results_screen:
+        if (self.results_screen):
             self.results_screen.hide()
         self.game_screen.hide()
         self.final_scores_screen.show()
