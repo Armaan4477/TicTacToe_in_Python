@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel
-from PyQt5.QtCore import Qt
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel
+from PyQt6.QtCore import Qt
 
 class StartScreen(QWidget):
     def __init__(self, main_window):
@@ -8,7 +8,7 @@ class StartScreen(QWidget):
         layout = QVBoxLayout()
 
         title = QLabel("Tic Tac Toe")
-        title.setAlignment(Qt.AlignCenter)
+        title.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(title)
 
         start_button = QPushButton("Start Game")
@@ -74,7 +74,7 @@ class ResultsScreen(QWidget):
 
         result_text = f"The winner is {winner}!" if winner else "It's a draw!"
         result_label = QLabel(result_text)
-        result_label.setAlignment(Qt.AlignCenter)
+        result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(result_label)
 
         restart_button = QPushButton("Restart")
@@ -121,4 +121,4 @@ if __name__ == "__main__":
     app = QApplication([])
     window = MainWindow()
     window.show()
-    app.exec_()
+    app.exec()
