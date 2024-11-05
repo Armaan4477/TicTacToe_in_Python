@@ -111,12 +111,18 @@ Visual Studio Code will start the application, and you will see the game window.
 
 ```plaintext
 TicTacToe_in_Python/
-├── [pregame.py]
-├── [game.py]
-├── [postgame.py]
-├── [main.py]
-├── [README.md]
+├── pregame.py
+├── game.py
+├── postgame.py
+├── main.py
+├── README.md
 └── screenshots/
-    ├── start_screen.png
-    ├── game_screen.png
-    └── results_screen.png
+    ├── pregame_1player.png
+    ├── pregame_2player.png
+    ├── ingame_1player.png
+    ├── ingame_2player.png
+    ├── winner_x.png
+    ├── winner_o.png
+    ├── winner_draw.png
+    ├── result_1player.png
+    └── result_2player.png
