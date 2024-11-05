@@ -136,6 +136,10 @@ class FinalScoresScreen(QWidget):
         final_scores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(final_scores_label)
 
+        close_button = QPushButton("Close")
+        close_button.clicked.connect(self.main_window.close)
+        layout.addWidget(close_button)
+
         self.setLayout(layout)
 
 class MainWindow(QMainWindow):
