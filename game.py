@@ -58,6 +58,11 @@ class GameScreen(QWidget):
             grid_layout.addWidget(button, i // 3, i % 3)
 
         layout.addLayout(grid_layout)
+
+        end_button = QPushButton("End Game")
+        end_button.clicked.connect(self.main_window.show_final_scores_screen)
+        layout.addWidget(end_button)
+
         self.setLayout(layout)
 
     def update_score_label(self):
@@ -114,13 +119,30 @@ class ResultsScreen(QWidget):
         restart_button.clicked.connect(self.main_window.show_game_screen)
         layout.addWidget(restart_button)
 
+        end_button = QPushButton("End Game")
+        end_button.clicked.connect(self.main_window.show_final_scores_screen)
+        layout.addWidget(end_button)
+
+        self.setLayout(layout)
+
+class FinalScoresScreen(QWidget):
+    def __init__(self, main_window, player1_name, player2_name, player1_score, player2_score):
+        super().__init__()
+        self.main_window = main_window
+        layout = QVBoxLayout()
+
+        final_scores_text = f"Final Scores:\n{player1_name} (X): {player1_score}\n{player2_name} (O): {player2_score}"
+        final_scores_label = QLabel(final_scores_text)
+        final_scores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        layout.addWidget(final_scores_label)
+
         self.setLayout(layout)
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Tic Tac Toe")
-        self.setFixedSize(300, 300)
+        self.setFixedSize(500, 500)
 
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
@@ -130,6 +152,7 @@ class MainWindow(QMainWindow):
         self.start_screen = StartScreen(self)
         self.game_screen = GameScreen(self)
         self.results_screen = None  # Initialized dynamically based on game outcome
+        self.final_scores_screen = None  # Initialized dynamically for final scores
 
         self.layout.addWidget(self.start_screen)
         self.layout.addWidget(self.game_screen)
@@ -146,6 +169,8 @@ class MainWindow(QMainWindow):
         self.start_screen.hide()
         if self.results_screen:
             self.results_screen.hide()
+        if self.final_scores_screen:
+            self.final_scores_screen.hide()
         self.game_screen.reset_board()
         self.game_screen.show()
 
@@ -154,6 +179,20 @@ class MainWindow(QMainWindow):
         self.layout.addWidget(self.results_screen)
         self.game_screen.hide()
         self.results_screen.show()
+
+    def show_final_scores_screen(self):
+        self.final_scores_screen = FinalScoresScreen(
+            self,
+            self.game_screen.player1_name,
+            self.game_screen.player2_name,
+            self.game_screen.player1_score,
+            self.game_screen.player2_score
+        )
+        self.layout.addWidget(self.final_scores_screen)
+        if self.results_screen:
+            self.results_screen.hide()
+        self.game_screen.hide()
+        self.final_scores_screen.show()
 
 if __name__ == "__main__":
     app = QApplication([])
