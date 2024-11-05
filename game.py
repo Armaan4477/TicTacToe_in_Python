@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QPushButton, QGridLayout, QLabel, QLineEdit, QHBoxLayout, QRadioButton, QButtonGroup
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QTimer
+import random
 
 class StartScreen(QWidget):
     def __init__(self, main_window):
@@ -48,7 +49,7 @@ class StartScreen(QWidget):
     def start_game(self):
         player1_name = self.player1_input.text()
         player2_name = self.player2_input.text() if self.two_player_mode.isChecked() else "Bot"
-        self.main_window.start_game(player1_name, player2_name)
+        self.main_window.start_game(player1_name, player2_name, self.one_player_mode.isChecked())
 
 class GameScreen(QWidget):
     def __init__(self, main_window):
@@ -60,6 +61,7 @@ class GameScreen(QWidget):
         self.player2_name = ""
         self.player1_score = 0
         self.player2_score = 0
+        self.is_one_player_mode = False
         self.setup_ui()
 
     def setup_ui(self):
@@ -93,6 +95,7 @@ class GameScreen(QWidget):
             if self.board[index] == "" and not self.check_winner():
                 self.board[index] = self.current_player
                 self.buttons[index].setText(self.current_player)
+                self.buttons[index].setEnabled(False)
                 if self.check_winner():
                     if self.current_player == "X":
                         self.player1_score += 1
@@ -103,8 +106,26 @@ class GameScreen(QWidget):
                     self.main_window.show_results_screen(None)
                 else:
                     self.current_player = "O" if self.current_player == "X" else "X"
-                self.update_score_label()
+                    self.update_score_label()
+                    if self.is_one_player_mode and self.current_player == "O":
+                        QTimer.singleShot(500, self.bot_move)  # Delay bot move by 500ms
         return callback
+
+    def bot_move(self):
+        available_moves = [i for i, spot in enumerate(self.board) if spot == ""]
+        if available_moves:
+            move = random.choice(available_moves)
+            self.board[move] = "O"
+            self.buttons[move].setText("O")
+            self.buttons[move].setEnabled(False)
+            if self.check_winner():
+                self.player2_score += 1
+                self.main_window.show_results_screen("O")
+            elif "" not in self.board:
+                self.main_window.show_results_screen(None)
+            else:
+                self.current_player = "X"
+                self.update_score_label()
 
     def check_winner(self):
         win_conditions = [
@@ -122,6 +143,7 @@ class GameScreen(QWidget):
         self.board = [""] * 9
         for button in self.buttons:
             button.setText("")
+            button.setEnabled(True)
         self.update_score_label()
 
 class ResultsScreen(QWidget):
@@ -188,9 +210,10 @@ class MainWindow(QMainWindow):
         self.start_screen.show()
         self.game_screen.hide()
 
-    def start_game(self, player1_name, player2_name):
+    def start_game(self, player1_name, player2_name, is_one_player_mode):
         self.game_screen.player1_name = player1_name
         self.game_screen.player2_name = player2_name
+        self.game_screen.is_one_player_mode = is_one_player_mode
         self.show_game_screen()
 
     def show_game_screen(self):
