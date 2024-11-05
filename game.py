@@ -29,16 +29,16 @@ class StartScreen(QWidget):
 
         self.player1_input = QLineEdit()
         self.player1_input.setPlaceholderText("Enter Player 1 Name")
-        self.player1_input.setStyleSheet("color: black;")
+        self.player1_input.setStyleSheet("color: black; background-color: #e0e0e0; border: 1px solid #a0a0a0; border-radius: 5px;")
         layout.addWidget(self.player1_input)
 
         self.player2_input = QLineEdit()
         self.player2_input.setPlaceholderText("Enter Player 2 Name")
-        self.player2_input.setStyleSheet("color: black;")
+        self.player2_input.setStyleSheet("color: black; background-color: #e0e0e0; border: 1px solid #a0a0a0; border-radius: 5px;")
         layout.addWidget(self.player2_input)
 
         start_button = QPushButton("Start Game")
-        start_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
+        start_button.setStyleSheet("font-size: 18px; padding: 10px; color: black; background-color: #a0a0a0; border: 1px solid #707070; border-radius: 5px;")
         start_button.clicked.connect(self.start_game)
         layout.addWidget(start_button)
 
@@ -84,7 +84,7 @@ class GameScreen(QWidget):
         for i in range(9):
             button = QPushButton()
             button.setFixedSize(80, 80)
-            button.setStyleSheet("font-size: 24px;")
+            button.setStyleSheet("font-size: 24px; background-color: #f0f0f0; border: 1px solid #a0a0a0; border-radius: 5px;")
             button.clicked.connect(self.make_move(i))
             self.buttons.append(button)
             grid_layout.addWidget(button, i // 3, i % 3)
@@ -92,7 +92,7 @@ class GameScreen(QWidget):
         layout.addLayout(grid_layout)
 
         end_button = QPushButton("End Game")
-        end_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
+        end_button.setStyleSheet("font-size: 18px; padding: 10px; color: black; background-color: #a0a0a0; border: 1px solid #707070; border-radius: 5px;")
         end_button.clicked.connect(self.main_window.show_final_scores_screen)
         layout.addWidget(end_button)
 
@@ -108,9 +108,9 @@ class GameScreen(QWidget):
                 self.buttons[index].setText(self.current_player)
                 self.buttons[index].setEnabled(False)
                 if self.current_player == "X":
-                    self.buttons[index].setStyleSheet("font-size: 24px; background-color: red; color: black;")
+                    self.buttons[index].setStyleSheet("font-size: 24px; background-color: red; color: black; border-radius: 5px;")
                 else:
-                    self.buttons[index].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
+                    self.buttons[index].setStyleSheet("font-size: 24px; background-color: blue; color: black; border-radius: 5px;")
                 if self.check_winner():
                     if self.current_player == "X":
                         self.player1_score += 1
@@ -135,7 +135,7 @@ class GameScreen(QWidget):
                 if self.check_winner():
                     self.buttons[i].setText("O")
                     self.buttons[i].setEnabled(False)
-                    self.buttons[i].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
+                    self.buttons[i].setStyleSheet("font-size: 24px; background-color: blue; color: black; border-radius: 5px;")
                     self.player2_score += 1
                     self.main_window.show_results_screen("O")
                     self.unlock_buttons()
@@ -150,7 +150,7 @@ class GameScreen(QWidget):
                     self.board[i] = "O"
                     self.buttons[i].setText("O")
                     self.buttons[i].setEnabled(False)
-                    self.buttons[i].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
+                    self.buttons[i].setStyleSheet("font-size: 24px; background-color: blue; color: black; border-radius: 5px;")
                     self.current_player = "X"
                     self.update_score_label()
                     self.unlock_buttons()
@@ -164,7 +164,7 @@ class GameScreen(QWidget):
             self.board[move] = "O"
             self.buttons[move].setText("O")
             self.buttons[move].setEnabled(False)
-            self.buttons[move].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
+            self.buttons[move].setStyleSheet("font-size: 24px; background-color: blue; color: black; border-radius: 5px;")
             if self.check_winner():
                 self.player2_score += 1
                 self.main_window.show_results_screen("O")
@@ -201,7 +201,7 @@ class GameScreen(QWidget):
         for button in self.buttons:
             button.setText("")
             button.setEnabled(True)
-            button.setStyleSheet("font-size: 24px; background-color: black; color: black;")
+            button.setStyleSheet("font-size: 24px; background-color: black; color: black; border-radius: 5px;")
         self.update_score_label()
 
 class ResultsScreen(QWidget):
@@ -217,12 +217,12 @@ class ResultsScreen(QWidget):
         layout.addWidget(result_label)
 
         restart_button = QPushButton("Next Round")
-        restart_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
+        restart_button.setStyleSheet("font-size: 18px; padding: 10px; color: black; background-color: #a0a0a0; border: 1px solid #707070; border-radius: 5px;")
         restart_button.clicked.connect(self.main_window.show_game_screen)
         layout.addWidget(restart_button)
 
         end_button = QPushButton("End Game")
-        end_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
+        end_button.setStyleSheet("font-size: 18px; padding: 10px; color: black; background-color: #a0a0a0; border: 1px solid #707070; border-radius: 5px;")
         end_button.clicked.connect(self.main_window.show_final_scores_screen)
         layout.addWidget(end_button)
 
@@ -241,12 +241,12 @@ class FinalScoresScreen(QWidget):
         layout.addWidget(final_scores_label)
 
         restart_button = QPushButton("Restart")
-        restart_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
+        restart_button.setStyleSheet("font-size: 18px; padding: 10px; color: black; background-color: #a0a0a0; border: 1px solid #707070; border-radius: 5px;")
         restart_button.clicked.connect(self.main_window.restart_game)
         layout.addWidget(restart_button)
 
         close_button = QPushButton("Close")
-        close_button.setStyleSheet("font-size: 18px; padding: 10px; color: black;")
+        close_button.setStyleSheet("font-size: 18px; padding: 10px; color: black; background-color: #a0a0a0; border: 1px solid #707070; border-radius: 5px;")
         close_button.clicked.connect(self.main_window.close)
         layout.addWidget(close_button)
 
