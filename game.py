@@ -103,6 +103,10 @@ class GameScreen(QWidget):
                 self.board[index] = self.current_player
                 self.buttons[index].setText(self.current_player)
                 self.buttons[index].setEnabled(False)
+                if self.current_player == "X":
+                    self.buttons[index].setStyleSheet("font-size: 24px; background-color: red; color: black;")
+                else:
+                    self.buttons[index].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
                 if self.check_winner():
                     if self.current_player == "X":
                         self.player1_score += 1
@@ -127,6 +131,7 @@ class GameScreen(QWidget):
                 if self.check_winner():
                     self.buttons[i].setText("O")
                     self.buttons[i].setEnabled(False)
+                    self.buttons[i].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
                     self.player2_score += 1
                     self.main_window.show_results_screen("O")
                     self.unlock_buttons()
@@ -141,6 +146,7 @@ class GameScreen(QWidget):
                     self.board[i] = "O"
                     self.buttons[i].setText("O")
                     self.buttons[i].setEnabled(False)
+                    self.buttons[i].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
                     self.current_player = "X"
                     self.update_score_label()
                     self.unlock_buttons()
@@ -154,6 +160,7 @@ class GameScreen(QWidget):
             self.board[move] = "O"
             self.buttons[move].setText("O")
             self.buttons[move].setEnabled(False)
+            self.buttons[move].setStyleSheet("font-size: 24px; background-color: blue; color: black;")
             if self.check_winner():
                 self.player2_score += 1
                 self.main_window.show_results_screen("O")
@@ -190,6 +197,7 @@ class GameScreen(QWidget):
         for button in self.buttons:
             button.setText("")
             button.setEnabled(True)
+            button.setStyleSheet("font-size: 24px; background-color: black; color: black;")
         self.update_score_label()
 
 class ResultsScreen(QWidget):
