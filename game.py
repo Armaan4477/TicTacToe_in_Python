@@ -115,7 +115,7 @@ class ResultsScreen(QWidget):
         result_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(result_label)
 
-        restart_button = QPushButton("Restart")
+        restart_button = QPushButton("Next Round")
         restart_button.clicked.connect(self.main_window.show_game_screen)
         layout.addWidget(restart_button)
 
@@ -135,6 +135,10 @@ class FinalScoresScreen(QWidget):
         final_scores_label = QLabel(final_scores_text)
         final_scores_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         layout.addWidget(final_scores_label)
+
+        restart_button = QPushButton("Restart")
+        restart_button.clicked.connect(self.main_window.restart_game)
+        layout.addWidget(restart_button)
 
         close_button = QPushButton("Close")
         close_button.clicked.connect(self.main_window.close)
@@ -197,6 +201,12 @@ class MainWindow(QMainWindow):
             self.results_screen.hide()
         self.game_screen.hide()
         self.final_scores_screen.show()
+
+    def restart_game(self):
+        self.game_screen.player1_score = 0
+        self.game_screen.player2_score = 0
+        self.final_scores_screen.hide()
+        self.start_screen.show()
 
 if __name__ == "__main__":
     app = QApplication([])
