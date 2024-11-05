@@ -115,6 +115,7 @@ class GameScreen(QWidget):
                     self.current_player = "O" if self.current_player == "X" else "X"
                     self.update_score_label()
                     if self.is_one_player_mode and self.current_player == "O":
+                        self.lock_buttons()
                         QTimer.singleShot(500, self.bot_move)  # Delay bot move by 500ms
         return callback
 
@@ -128,6 +129,7 @@ class GameScreen(QWidget):
                     self.buttons[i].setEnabled(False)
                     self.player2_score += 1
                     self.main_window.show_results_screen("O")
+                    self.unlock_buttons()
                     return
                 self.board[i] = ""
 
@@ -141,6 +143,7 @@ class GameScreen(QWidget):
                     self.buttons[i].setEnabled(False)
                     self.current_player = "X"
                     self.update_score_label()
+                    self.unlock_buttons()
                     return
                 self.board[i] = ""
 
@@ -159,6 +162,16 @@ class GameScreen(QWidget):
             else:
                 self.current_player = "X"
                 self.update_score_label()
+        self.unlock_buttons()
+
+    def lock_buttons(self):
+        for button in self.buttons:
+            button.setEnabled(False)
+
+    def unlock_buttons(self):
+        for i, button in enumerate(self.buttons):
+            if self.board[i] == "":
+                button.setEnabled(True)
 
     def check_winner(self):
         win_conditions = [
